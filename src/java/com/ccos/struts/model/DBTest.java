@@ -21,8 +21,11 @@ public class DBTest {
     public static void main(String args[]) {
         UserDTO userdto = new UserDTO();
         
-        User user = userdto.getUserById("SH-01");
-        System.out.println(user.getName());
+//        User user = userdto.getUserById("SH-01");
+//        System.out.println(user.getName());
+            
+          userdto.insertUser("TE-03", "Test 03", "Test123", "Administrator", "Branch Test", "SH-02");
+          
 
 //        List<User> users = userdto.getUsersById("01");
 //        

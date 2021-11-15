@@ -13,7 +13,7 @@ import java.sql.Timestamp;
  */
 @Stateless
 public class User {
-    private String userId;
+    private String id;
     private String name;
     private String password;
     private String role;
@@ -30,8 +30,8 @@ public class User {
         
     }
 
-    public User(String userId, String name, String password, String role, String branch, Timestamp createdAt, String createdBy, Timestamp modifiedAt, String modifiedBy) {
-        this.userId = userId;
+    public User(String id, String name, String password, String role, String branch, Timestamp createdAt, String createdBy, Timestamp modifiedAt, String modifiedBy) {
+        this.id = id;
         this.name = name;
         this.password = password;
         this.role = role;
@@ -47,8 +47,8 @@ public class User {
     /*
     ===== GETTER =====
     */
-    public String getUserId() {
-        return userId;
+    public String getId() {
+        return id;
     }
 
     public String getName() {
@@ -88,8 +88,8 @@ public class User {
     /*
     ===== SETTER =====
     */
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -130,7 +130,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" + "userId=" + userId + ", name=" + name + ", role=" + role + ", branch=" + branch + '}';
+        return "User{" + "id=" + id + ", name=" + name + ", role=" + role + ", branch=" + branch + '}';
     }
     
 }

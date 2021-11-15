@@ -1,11 +1,7 @@
-/*
-    ADDITIONAL DEMO STYLE, NOT IMPORTANT TO MAKE THINGS WORK BUT TO MAKE IT A BIT NICER :)
-*/
 @import "https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700";
 
 
 #sidebar {
-    /* don't forget to add all the previously mentioned styles here too */
     background: lightgray;
     color: #fff;
     transition: all 0.3s;

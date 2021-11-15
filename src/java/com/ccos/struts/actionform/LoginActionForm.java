@@ -90,7 +90,7 @@ public class LoginActionForm extends org.apache.struts.action.ActionForm {
                 errors.add("password_incorrect", new ActionMessage("login.errors.password.incorrect"));
             } else {
                 HttpSession session = request.getSession();
-                session.setAttribute("userId", user.getUserId());
+                session.setAttribute("userId", user.getId());
                 session.setAttribute("name", user.getName());
                 session.setAttribute("role", user.getRole());
             }

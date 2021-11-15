@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
@@ -24,6 +25,7 @@ public class ProvinceAction extends org.apache.struts.action.Action {
     /* forward name="success" path="" */
     private static final String SEARCH_PAGE = "search_page";
     private static final String CREATE_PAGE = "create_page";
+    private static final String EDIT_PAGE = "edit_page";
     private static final String SEARCH_SUCCESS = "search_success";
     private static final String CREATE_SUCCESS = "create_success";
     private static final String FAILED = "failed";
@@ -46,8 +48,6 @@ public class ProvinceAction extends org.apache.struts.action.Action {
         
         String task = request.getParameter("task");
         
-        System.out.println("Task : " + task);
-        
         ProvinceActionForm provinceForm = (ProvinceActionForm) form;
         ProvinceDTO provdto = new ProvinceDTO();
         
@@ -55,6 +55,13 @@ public class ProvinceAction extends org.apache.struts.action.Action {
             return mapping.findForward(SEARCH_PAGE);
         } else if(task.equals("create_page")) {
             return mapping.findForward(CREATE_PAGE);
+        } else if(task.equals("edit_page")) {
+            
+            String prov_id = request.getParameter("provId");
+            Province province = provdto.getProvinceById(prov_id);
+            request.setAttribute("province", province);
+            return mapping.findForward(EDIT_PAGE);
+            
         } else if(task.equals("search")) {
             
             List<Province> provinces = new ArrayList();
@@ -66,22 +73,69 @@ public class ProvinceAction extends org.apache.struts.action.Action {
             }
             
             request.setAttribute("provinces", provinces);
+            provinceForm.reset(mapping, request);
             return mapping.findForward(SEARCH_SUCCESS);
             
         } else if(task.equals("create")) {
             String created_by = (String) request.getSession().getAttribute("userId");
+            ActionErrors errors = provinceForm.validate(mapping, request);
             
-            Integer result = provdto.insertProvince(
+            if(errors.isEmpty()) {
+                Integer result = provdto.insertProvince(
                     provinceForm.getCode(), 
                     provinceForm.getName(), 
                     created_by);
-            
-            if(result != 0) {
-                return mapping.findForward(CREATE_SUCCESS);
+                
+                provinceForm.reset(mapping, request);
+                
+                if(result != 0) {
+                    request.setAttribute("alert_message", "New Province is successfully created!");
+                    request.setAttribute("alert_type", "success");
+                    return mapping.findForward(CREATE_SUCCESS);
+                    
+                } else {
+                    request.setAttribute("alert_message", "Error when creating new province, check your DTO!");
+                    request.setAttribute("alert_type", "error");
+                    return mapping.findForward(FAILED);
+                }
             } else {
+                request.setAttribute("alert_message", "Check your input!");
+                request.setAttribute("alert_type", "error");
+                
                 return mapping.findForward(FAILED);
             }
-        } else {
+            
+        } else if(task.equals("edit")) {
+            String prov_id = request.getParameter("code");
+            String modified_by = (String) request.getSession().getAttribute("userId");
+            
+            ActionErrors errors = provinceForm.validate(mapping, request);
+            
+            if(errors.isEmpty()) {
+                Integer result = provdto.updateProvince(
+                        provinceForm.getCode(), 
+                        provinceForm.getName(),
+                        modified_by);
+                
+                provinceForm.reset(mapping, request);
+                
+                if(result != 0) {
+                    request.setAttribute("alert_message", "Province successfully updated!");
+                    request.setAttribute("alert_type", "success");
+                    return mapping.findForward(CREATE_SUCCESS);
+                } else {
+                    request.setAttribute("alert_message", "Error when updating province, check your DTO!");
+                    request.setAttribute("alert_type", "error");
+                    return mapping.findForward(FAILED);
+                }
+                
+            } else {
+                request.setAttribute("alert_message", "Check your input!");
+                request.setAttribute("alert_type", "error");
+                return mapping.findForward(FAILED);
+            }
+        }
+        else {
             return mapping.findForward(FAILED);
         }
     }

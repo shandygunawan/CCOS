@@ -56,13 +56,46 @@ public class ProvinceDTO {
     }
     
     /*
-        ===== SELECT MULTIPLE RESULT =====
+        ===== SELECT MULTIPLE RESULTS =====
     */
+    public List<Province> getProvincesAll() {
+        try {
+            Connection conn = DBConnection.getConnection();
+            
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM M_PROVINCE ORDER BY id");
+            ResultSet rs = stmt.executeQuery();
+            
+            if(!rs.isBeforeFirst()) {
+                System.out.println("getProvincesAll: There is no provinces found!");
+                return null;
+            }
+            
+            ArrayList<Province> provinces = new ArrayList();
+            
+            while(rs.next()) {
+                Province province = new Province();
+                province.setId(rs.getString("id"));
+                province.setName(rs.getString("name"));
+                province.setCreatedAt(rs.getTimestamp("created_at"));
+                province.setCreatedBy("created_by");
+                province.setModifiedAt(rs.getTimestamp("modified_at"));
+                province.setModifiedBy("modified_by");
+                provinces.add(province);
+            }
+            
+            return provinces;
+            
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
     public List<Province> getProvincesById(String id) {
         try {
             Connection conn = DBConnection.getConnection();
             
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM M_PROVINCE WHERE id LIKE ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM M_PROVINCE WHERE id LIKE ? ORDER BY id");
             stmt.setString(1, "%" + id + "%");
             ResultSet rs = stmt.executeQuery();
             
@@ -96,7 +129,7 @@ public class ProvinceDTO {
         try {
             Connection conn = DBConnection.getConnection();
             
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM M_PROVINCE WHERE name LIKE ?");
+            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM M_PROVINCE WHERE name LIKE ? ORDER BY id");
             stmt.setString(1, "%" + name + "%");
             ResultSet rs = stmt.executeQuery();
             

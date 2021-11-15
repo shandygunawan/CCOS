@@ -109,10 +109,6 @@ public class ProvinceActionForm extends org.apache.struts.action.ActionForm {
         
         Province prov = provdto.getProvinceById(code);
         
-        if(prov != null) {
-            return true;
-        } else {
-            return false;
-        }
+        return prov != null;
     }
 }

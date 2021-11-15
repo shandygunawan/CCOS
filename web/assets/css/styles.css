@@ -1,3 +1,5 @@
-.border-light-darkblue {
-    border: 0.25px solid darkblue;
+.wrapper {
+    display: flex;
+    align-items: stretch;
+    height: 100vh;
 }

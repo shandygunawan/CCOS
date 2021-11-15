@@ -29,10 +29,12 @@
 <struts-config>
     <form-beans>
          <form-bean name="login-form" type="com.ccos.struts.actionform.LoginActionForm" />
-         <form-bean name="user-search" type="com.ccos.struts.actionform.UserSearchActionForm" />
-         <form-bean name="user-add" type="com.ccos.struts.actionform.UserAddActionForm" />
-         <form-bean name="user-edit" type="com.ccos.struts.actionform.UserEditActionForm" />
+         <form-bean name="user-form" type="com.ccos.struts.actionform.UserActionForm" />
          <form-bean name="province-form" type="com.ccos.struts.actionform.ProvinceActionForm" />
+         <form-bean name="city-form" type="com.ccos.struts.actionform.CityActionForm" />
+         <form-bean name="customer-form" type="com.ccos.struts.actionform.CustomerActionForm" />
+         <form-bean name="application-form" type="com.ccos.struts.actionform.ApplicationActionForm" />
+         <form-bean name="report-form" type="com.ccos.struts.actionform.ReportActionForm" />
     </form-beans>
     
     <global-exceptions>
@@ -54,33 +56,58 @@
             <forward name="failed" path="/login.jsp"/>
         </action>
         
-        <action path="/user-search" type="com.ccos.struts.action.UserSearchAction" 
-                name="user-search" input="/pages/user_search.jsp" validate="true">
-            <forward name="success" path="/pages/user_search.jsp" />
-            <forward name="failed" path="/pages/user_search.jsp" />
+        <action path="/user" type="com.ccos.struts.action.UserAction"
+                input="/pages/user_search.jsp" name="user-form" scope="request">
+            <forward name="search_page" path="/pages/user_search.jsp" />
+            <forward name="create_page" path="/pages/user_create.jsp" />
+            <forward name="edit_page" path="/pages/user_edit.jsp" />
+            <forward name="search_success" path="/pages/user_search.jsp" />
+            <forward name="create_success" path="/user.do" redirect="true" />
         </action>
-        
-        <action path="/user-add" type="com.ccos.struts.action.UserAddAction"
-                name="user-add" input="/pages/user_add.jsp" validate="true">
-            <forward name="success" path="/user-search.do" redirect="true" />
-            <forward name="failed" path="/pages/user_add.jsp" />
-        </action>
-        
-        <action path="/user-edit" type="com.ccos.struts.action.UserEditAction"
-                name="user-edit" input="/pages/user_edit.jsp" validate="false">
-            <forward name="detail" path="/pages/user_edit.jsp" />
-            <forward name="success" path="/user-search.do" redirect="true" />
-            <forward name="failed" path="/pages/user_edit.jsp" />
-        </action>
-        
-        <!-- Province -->
         
         <action path="/province" type="com.ccos.struts.action.ProvinceAction"
-                input="province-create-page" name="province-form" scope="request" validate="false">
+                input="/pages/province_search.jsp" name="province-form" scope="request">
             <forward name="search_page" path="/pages/province_search.jsp" />
             <forward name="create_page" path="/pages/province_create.jsp" />
+            <forward name="edit_page" path="/pages/province_edit.jsp" />
             <forward name="search_success" path="/pages/province_search.jsp" />
-            <forward name="create_success" path="/province.do" redirect="true" />
+            <forward name="create_success" path="/pages/province_search.jsp" />
+            <forward name="failed" path="/pages/province_search.jsp" />
+        </action>
+        
+        <action path="/city" type="com.ccos.struts.action.CityAction"
+                input="/pages/city_search.jsp" name="city-form" scope="request">
+            <forward name="search_page" path="/pages/city_search.jsp" />
+            <forward name="create_page" path="/pages/city_create.jsp" />
+            <forward name="edit_page" path="/pages/city_edit.jsp" />
+            <forward name="search_success" path="/pages/city_search.jsp" />
+            <forward name="create_success" path="/city.do" redirect="true" />
+        </action>
+        
+        <action path="/customer" type="com.ccos.struts.action.CustomerAction"
+                input="/pages/customer_search.jsp" name="customer-form" scope="request">
+            <forward name="search_page" path="/pages/customer_search.jsp" />
+            <forward name="create_page" path="/pages/customer_create.jsp" />
+            <forward name="edit_page" path="/pages/customer_edit.jsp" />
+            <forward name="search_success" path="/pages/customer_search.jsp" />
+            <forward name="create_success" path="/customer.do" redirect="true" />
+        </action>
+        
+        <action path="/application" type="com.ccos.struts.action.ApplicationAction" 
+                input="/pages/application_create.jsp" name="application-form" scope="request" >
+            <forward name="create_page" path="/pages/application_create.jsp" />
+            <forward name="create_success" path="/customer.do" redirect="true" />
+        </action>
+        
+        <action path="/report" type="com.ccos.struts.action.ReportAction"
+                input="/pages/report.jsp" name="report-form" scope="request" >
+            
+            <forward name="generate_success" path="/pages/report.jsp" />
+            
+        </action>
+        
+        <action path="/logout" type="com.ccos.struts.action.LogoutAction">
+            <forward name="success" path="/login.do" redirect="true"></forward>
         </action>
         
     </action-mappings>

@@ -34,14 +34,14 @@ public class UserDTO {
             ResultSet rs = stmt.executeQuery();
             
             if(!rs.isBeforeFirst()) {
-                System.out.println("There is no user found!");
+                System.out.println("getUserById: There is no user found!");
                 return null;
             }
             
             rs.next();
             
             User user = new User();
-            user.setUserId(rs.getString("id"));
+            user.setId(rs.getString("id"));
             user.setName(rs.getString("name"));
             user.setPassword(rs.getString("password"));
             user.setRole(rs.getString("role"));
@@ -78,7 +78,7 @@ public class UserDTO {
             
             while(rs.next()) {
                 User user = new User();
-                user.setUserId(rs.getString("id"));
+                user.setId(rs.getString("id"));
                 user.setName(rs.getString("name"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
@@ -115,7 +115,7 @@ public class UserDTO {
             
             while(rs.next()) {
                 User user = new User();
-                user.setUserId(rs.getString("id"));
+                user.setId(rs.getString("id"));
                 user.setName(rs.getString("name"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
@@ -152,7 +152,7 @@ public class UserDTO {
             
             while(rs.next()) {
                 User user = new User();
-                user.setUserId(rs.getString("id"));
+                user.setId(rs.getString("id"));
                 user.setName(rs.getString("name"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
@@ -189,7 +189,7 @@ public class UserDTO {
             
             while(rs.next()) {
                 User user = new User();
-                user.setUserId(rs.getString("id"));
+                user.setId(rs.getString("id"));
                 user.setName(rs.getString("name"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
@@ -231,7 +231,7 @@ public class UserDTO {
             
             while(rs.next()) {
                 User user = new User();
-                user.setUserId(rs.getString("id"));
+                user.setId(rs.getString("id"));
                 user.setName(rs.getString("name"));
                 user.setPassword(rs.getString("password"));
                 user.setRole(rs.getString("role"));
@@ -254,14 +254,14 @@ public class UserDTO {
     /*
         ===== INSERT =====
     */
-    public Integer insertUser(String userId, String name, String password, String role, String branch, String created_by) {
+    public Integer insertUser(String id, String name, String password, String role, String branch, String created_by) {
         try {
             Connection conn = DBConnection.getConnection();
             
             PreparedStatement stmt = conn.prepareStatement(
                     "INSERT INTO S_USER VALUES(?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?, null, null)"
             );
-            stmt.setString(1, userId);
+            stmt.setString(1, id);
             stmt.setString(2, name);
             stmt.setString(3, password);
             stmt.setString(4, role);
@@ -277,9 +277,9 @@ public class UserDTO {
     }
     
     /*
-        ===== INSERT =====
+        ===== UPDATE =====
     */
-    public Integer updateUser(String userId, String name, String password, String role, String branch, String modified_by) {
+    public Integer updateUser(String id, String name, String password, String role, String branch, String modified_by) {
         try {
             Connection conn = DBConnection.getConnection();
             
@@ -291,7 +291,7 @@ public class UserDTO {
             stmt.setString(3, role);
             stmt.setString(4, branch);
             stmt.setString(5, modified_by);
-            stmt.setString(6, userId);
+            stmt.setString(6, id);
             Integer result = stmt.executeUpdate();
             return result;
             

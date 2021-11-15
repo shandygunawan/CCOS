@@ -13,20 +13,25 @@ import java.sql.SQLException;
  * @author shand
  */
 public class DBConnection {
+    private static Connection con = null;
+    
     public static Connection getConnection() {
-        Connection con = null;
-        
-        try {
-            Class.forName("org.postgresql.Driver");
-            con = DriverManager.getConnection("jdbc:postgresql://localhost/ccos", "postgres", "postgres");
+        if(con == null) {
+            try {
+                Class.forName("org.postgresql.Driver");
+                con = DriverManager.getConnection("jdbc:postgresql://localhost/ccos", "postgres", "postgres");
 
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
-
+        
         return con;
+    }
+    
+    public static void closeConnection() throws SQLException {
+        con.close();
     }
 }
